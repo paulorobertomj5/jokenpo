@@ -1,7 +1,7 @@
 # jokenpo
 jokenpo
 
-Na pasta do projeto
+Na pasta do projeto executar o comando abaixo
 
 docker-compose up -d --build
 
