@@ -1,0 +1,18 @@
+language: bash
+services: docker
+before_install:
+  - cd restspringboot/
+  - echo "Entramos no docker folder"
+spript:
+  - docker-compose build
+before_deploy:
+  - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+deploy:
+  provider: script
+  script:
+    docker push paulormoj/rest-spring-boot;
+    docker push paulormoj/mysql;
+  on:
+    branch: master
+notifications:
+  email: false
