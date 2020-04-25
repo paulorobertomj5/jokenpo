@@ -10,6 +10,6 @@ Documentação da API
 http://localhost:8080/swagger-ui.html
 
 
-Exemplo uri para ver resultado do jogo
+Url resultado do jogo
 
 http://localhost:8080/match/result/1
