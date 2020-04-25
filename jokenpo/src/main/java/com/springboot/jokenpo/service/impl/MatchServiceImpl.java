@@ -76,7 +76,7 @@ public class MatchServiceImpl implements MatchService {
 
         List<PlayVO> playList = DozerConverter.parseListObject(playService.findMatchById(id), PlayVO.class);
         String resultMatch = "";
-        if(playList != null && !playList.isEmpty()) {
+        if (playList != null && !playList.isEmpty()) {
             Map<String, List<PlayVO>> jogadasGrouped = playList.stream()
                     .collect(groupingBy(PlayVO::getPlayed));
 
@@ -94,57 +94,63 @@ public class MatchServiceImpl implements MatchService {
         String scissors = null;
         AtomicReference<String> resultMessage = new AtomicReference<>("");
 
-        for(Map.Entry<String, List<PlayVO>>  map : jogadasGrouped.entrySet()){
-            if(map.getKey().equals("SCISSORS")){
+        for (Map.Entry<String, List<PlayVO>> map : jogadasGrouped.entrySet()) {
+            if (map.getKey().equals("SCISSORS")) {
                 scissors = "SCISSORS";
             }
-            if(map.getKey().equals("PAPER")){
+            if (map.getKey().equals("PAPER")) {
                 paper = "PAPER";
             }
-            if(map.getKey().equals("ROCK")){
+            if (map.getKey().equals("ROCK")) {
                 rock = "ROCK";
             }
         }
 
-        if(paper != null && rock != null && scissors != null){
+        if (paper != null && rock != null && scissors != null) {
             resultMessage.set("DRAW");
-        }else {
-            if (scissors != null && rock != null) {
-                jogadasGrouped.entrySet().stream().forEach(x -> {
-                    System.out.println("x.getKey() = " + x.getKey());
-                    if (x.getKey().equals("ROCK")) {
-                        x.getValue().stream().forEach(jogarModel -> {
-                            resultMessage.set(resultMessage.get() + jogarModel.getPlayerId() + " ");
-                        });
-                        resultMessage.set("Jogador número " + resultMessage.get() + "venceu a partida " + id);
-                    }
-                });
-            }
-            if (scissors != null && paper != null) {
-                jogadasGrouped.entrySet().stream().forEach(x -> {
-                    System.out.println("x.getKey() = " + x.getKey());
-                    if (x.getKey().equals("SCISSORS")) {
-                        x.getValue().stream().forEach(jogarModel -> {
-                            resultMessage.set(resultMessage.get() + jogarModel.getPlayerId() + " ");
-                        });
-                        resultMessage.set("Jogador número " + resultMessage.get() + "venceu a partida " + id);
-                    }
-                });
-            }
-            if (rock != null && paper != null) {
-                jogadasGrouped.entrySet().stream().forEach(x -> {
-                    System.out.println("x.getKey() = " + x.getKey());
-                    if (x.getKey().equals("PAPER")) {
-                        x.getValue().stream().forEach(jogarModel -> {
-                            resultMessage.set(resultMessage.get() + jogarModel.getPlayerId() + " ");
-                        });
-                        resultMessage.set("Jogador número " + resultMessage.get() + "venceu a partida " + id);
-                    }
-                });
-            }
+        } else {
+            whoIsWinner(id, jogadasGrouped, paper, rock, scissors, resultMessage);
         }
 
         return resultMessage.toString();
     }
 
+    private void whoIsWinner(Long id, Map<String, List<PlayVO>> jogadasGrouped, String paper, String rock, String scissors, AtomicReference<String> resultMessage) {
+
+        if (scissors != null && rock != null) {
+            jogadasGrouped.entrySet().stream().forEach(x -> {
+                System.out.println("x.getKey() = " + x.getKey());
+                if (x.getKey().equals("ROCK")) {
+                    x.getValue().stream().forEach(jogarModel -> {
+                        resultMessage.set(resultMessage.get() + jogarModel.getPlayerId() + " ");
+                    });
+                    resultMessage.set("Jogador número " + resultMessage.get() + "venceu a partida " + id);
+                }
+            });
+        }
+
+        if (scissors != null && paper != null) {
+            jogadasGrouped.entrySet().stream().forEach(x -> {
+                System.out.println("x.getKey() = " + x.getKey());
+                if (x.getKey().equals("SCISSORS")) {
+                    x.getValue().stream().forEach(jogarModel -> {
+                        resultMessage.set(resultMessage.get() + jogarModel.getPlayerId() + " ");
+                    });
+                    resultMessage.set("Jogador número " + resultMessage.get() + "venceu a partida " + id);
+                }
+            });
+        }
+
+        if (rock != null && paper != null) {
+            jogadasGrouped.entrySet().stream().forEach(x -> {
+                System.out.println("x.getKey() = " + x.getKey());
+                if (x.getKey().equals("PAPER")) {
+                    x.getValue().stream().forEach(jogarModel -> {
+                        resultMessage.set(resultMessage.get() + jogarModel.getPlayerId() + " ");
+                    });
+                    resultMessage.set("Jogador número " + resultMessage.get() + "venceu a partida " + id);
+                }
+            });
+        }
+    }
 }
