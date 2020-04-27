@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 import org.springframework.hateoas.ResourceSupport;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -15,9 +17,17 @@ public class PlayerVO extends ResourceSupport implements Serializable {
 
     @JsonProperty("id")
     private Long key;
+    @NotNull
+    @NotBlank
     private String fistName;
+    @NotNull
+    @NotBlank
     private String lastName;
+    @NotNull
+    @NotBlank
     private String address;
+    @NotNull
+    @NotBlank
     private String gender;
 
     public PlayerVO() {

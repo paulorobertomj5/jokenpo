@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -23,7 +24,7 @@ public class PlayerController {
     private PlayerService service;
 
     @ApiOperation(value = "findById")
-    @GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
+    @GetMapping(value = "/{id}", produces = {"application/json", "application/x-yaml"})
     public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
 
         PlayerVO playerVO = service.findById(id);
@@ -37,7 +38,7 @@ public class PlayerController {
     }
 
     @ApiOperation(value = "findByAll")
-    @GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
+    @GetMapping(produces = {"application/json", "application/x-yaml"})
     public ResponseEntity<Object> findByAll() {
 
         List<PlayerVO> playerVOs = service.findByAll();
@@ -51,8 +52,8 @@ public class PlayerController {
     }
 
     @ApiOperation(value = "create")
-    @PostMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, consumes = {"application/json", "application/xml", "application/x-yaml"})
-    public ResponseEntity<Object> create(@RequestBody PlayerVO player) {
+    @PostMapping(produces = {"application/json", "application/x-yaml"}, consumes = {"application/json", "application/x-yaml"})
+    public ResponseEntity<Object> create(@Valid @RequestBody PlayerVO player) {
 
         PlayerVO playerVO = service.create(player);
 
@@ -65,8 +66,8 @@ public class PlayerController {
     }
 
     @ApiOperation(value = "update")
-    @PutMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, consumes = {"application/json", "application/xml", "application/x-yaml"})
-    public ResponseEntity<Object> update(@RequestBody PlayerVO player) {
+    @PutMapping(produces = {"application/json", "application/x-yaml"}, consumes = {"application/json", "application/x-yaml"})
+    public ResponseEntity<Object> update(@Valid @RequestBody PlayerVO player) {
         PlayerVO playerVO = service.update(player);
         if (playerVO != null) {
             playerVO.add(linkTo(methodOn(PlayerController.class).findById(playerVO.getKey())).withSelfRel());

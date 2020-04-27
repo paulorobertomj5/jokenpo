@@ -1,9 +1,10 @@
 package com.springboot.jokenpo.data.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.dozermapper.core.Mapping;
 import org.springframework.hateoas.ResourceSupport;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -14,8 +15,14 @@ public class PlayVO extends ResourceSupport implements Serializable {
 
     @JsonProperty(value = "id")
     private Long key;
+    @NotNull
+    @NotBlank
     private Integer matchId;
+    @NotNull
+    @NotBlank
     private Integer playerId;
+    @NotNull
+    @NotBlank
     private String played;
 
     public Long getKey() {

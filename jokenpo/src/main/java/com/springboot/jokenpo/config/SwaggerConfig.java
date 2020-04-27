@@ -27,6 +27,6 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("RestFul API", "Descrição", "v1", "Terms of Service URL", new Contact("Paulo Roberto","paulorobertomj5@gmail.com","paulorobertomj5@gmail.com"),"", "", Collections.emptyList());
+        return new ApiInfo("RESTful API", "Descrição", "v1", "Terms of Service URL", new Contact("Paulo Roberto","paulorobertomj5@gmail.com","paulorobertomj5@gmail.com"),"", "", Collections.emptyList());
     }
 }

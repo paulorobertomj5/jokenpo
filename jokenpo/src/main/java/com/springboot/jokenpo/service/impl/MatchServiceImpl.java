@@ -119,7 +119,6 @@ public class MatchServiceImpl implements MatchService {
 
         if (scissors != null && rock != null) {
             jogadasGrouped.entrySet().stream().forEach(x -> {
-                System.out.println("x.getKey() = " + x.getKey());
                 if (x.getKey().equals("ROCK")) {
                     x.getValue().stream().forEach(jogarModel -> {
                         resultMessage.set(resultMessage.get() + jogarModel.getPlayerId() + " ");
@@ -131,7 +130,6 @@ public class MatchServiceImpl implements MatchService {
 
         if (scissors != null && paper != null) {
             jogadasGrouped.entrySet().stream().forEach(x -> {
-                System.out.println("x.getKey() = " + x.getKey());
                 if (x.getKey().equals("SCISSORS")) {
                     x.getValue().stream().forEach(jogarModel -> {
                         resultMessage.set(resultMessage.get() + jogarModel.getPlayerId() + " ");
@@ -143,7 +141,6 @@ public class MatchServiceImpl implements MatchService {
 
         if (rock != null && paper != null) {
             jogadasGrouped.entrySet().stream().forEach(x -> {
-                System.out.println("x.getKey() = " + x.getKey());
                 if (x.getKey().equals("PAPER")) {
                     x.getValue().stream().forEach(jogarModel -> {
                         resultMessage.set(resultMessage.get() + jogarModel.getPlayerId() + " ");

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -23,7 +24,7 @@ public class MatchController {
     private MatchService service;
 
     @ApiOperation(value = "findById")
-    @GetMapping(value = "/", produces = {"application/json", "application/xml", "application/x-yaml"})
+    @GetMapping(value = "/", produces = {"application/json", "application/x-yaml"})
     public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
 
         MatchVO matchVO = service.findById(id);
@@ -37,20 +38,22 @@ public class MatchController {
     }
 
     @ApiOperation(value = "Result Match")
-    @GetMapping(value = "/result/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
+    @GetMapping(value = "/result/{id}", produces = {"application/json", "application/x-yaml"})
     public ResponseEntity<Object> findResultMatchById(@PathVariable("id") Long id) {
 
         String resultMatch = service.findResultMatchById(id);
 
         if (resultMatch != null && !resultMatch.equals("")) {
-            return ResponseEntity.status(HttpStatus.OK).body(resultMatch);
+            MatchVO matchVO = new MatchVO();
+            matchVO.setMessage(resultMatch);
+            return ResponseEntity.status(HttpStatus.OK).body(matchVO);
         } else {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
     }
 
     @ApiOperation(value = "findByAll")
-    @GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
+    @GetMapping(produces = {"application/json", "application/x-yaml"})
     public ResponseEntity<Object> findByAll() {
 
         List<MatchVO> matchVOs = service.findByAll();
@@ -64,8 +67,8 @@ public class MatchController {
     }
 
     @ApiOperation(value = "create")
-    @PostMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, consumes = {"application/json", "application/xml", "application/x-yaml"})
-    public ResponseEntity<Object> create(@RequestBody MatchVO match) {
+    @PostMapping(produces = {"application/json", "application/x-yaml"}, consumes = {"application/json", "application/x-yaml"})
+    public ResponseEntity<Object> create(@Valid @RequestBody MatchVO match) {
 
         MatchVO matchVO = service.create(match);
 
@@ -78,8 +81,8 @@ public class MatchController {
     }
 
     @ApiOperation(value = "update")
-    @PutMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, consumes = {"application/json", "application/xml", "application/x-yaml"})
-    public ResponseEntity<Object> update(@RequestBody MatchVO match) {
+    @PutMapping(produces = {"application/json", "application/x-yaml"}, consumes = {"application/json", "application/x-yaml"})
+    public ResponseEntity<Object> update(@Valid @RequestBody MatchVO match) {
         MatchVO matchVO = service.update(match);
         if (matchVO != null) {
             matchVO.add(linkTo(methodOn(MatchController.class).findById(matchVO.getKey())).withSelfRel());
